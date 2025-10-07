@@ -1,20 +1,20 @@
 # Project: Credit Card Fraud Analysis
 
-**Credit Card Fraud Analysis** is a comprehensive data analytics project that investigates fraudulent transaction patterns using a 100,000 row stratified sample of the synthetic Kaggle Credit Card Transactions dataset. The project applies end-to-end data preparation, statistical testing, and machine learning to identify key fraud indicators and evaluate model performance. Findings are communicated through an interactive Power BI dashboard designed for fraud analysts and business decision-makers, highlighting the balance between detecting more fraud and minimising false alerts.
+**Credit Card Fraud Analysis** uses exploratory data analysis, visualisation, and predictive modelling to provide insights into the complexity of fraud and identify key factors linked to fraudulent activity.
 
 # ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
 
 ## Dataset Content
-* The dataset used is synthetic and publicly available on Kaggle: [Credit Card Fraud Dataset](https://www.kaggle.com/datasets/dhanushnarayananr/credit-card-fraud/data/code). The full dataset on Kaggle contains one million card transactions, of which approximately 8.7% are labelled as fraudulent.
-The features are designed to be intuitive and business-facing:
-- distance_from_home – distance from the customer’s home to the location of the transaction.
-- distance_from_last_transaction – distance between the current and previous transaction.
+
+The dataset used is synthetic and publicly available on Kaggle: [Credit Card Fraud Dataset](https://www.kaggle.com/datasets/dhanushnarayananr/credit-card-fraud/data/code). The full dataset on Kaggle contains one million card transactions, of which approximately 8.7% are labelled as fraudulent.The dataset’s variables are designed to be relevant and aligned with real-world business concepts:
+- distance_from_home: distance from the customer’s home to the location of the transaction.
+- distance_from_last_transaction: distance between the current and previous transaction.
 - ratio_to_median_purchase_price: The ratio between the transaction amount and the customer’s typical (median) purchase size. 
-- repeat_retailer – whether the transaction occurred at the same retailer as previous purchases.
-- used_chip – whether the transaction used a card chip.
-- used_pin_number – whether a PIN number was used.
-- fraud – target variable, indicating whether the transaction was fraudulent (1) or genuine (0). 
+- repeat_retailer: whether the transaction occurred at the same retailer as previous purchases.
+- used_chip: whether the transaction used a card chip.
+- used_pin_number: whether a PIN number was used.
+- fraud: target variable, indicating whether the transaction was fraudulent (1) or genuine (0). 
 
 To keep the project lightweight and efficient, a 100,000-row stratified sample was created in advance. This sample preserved the same fraud prevalence (8.7%) and feature distributions, ensuring validity for analysis while allowing faster processing.
 
