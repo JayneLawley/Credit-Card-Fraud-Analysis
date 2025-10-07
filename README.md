@@ -18,7 +18,7 @@ The features are designed to be intuitive and business-facing:
 
 To keep the project lightweight and efficient, a 100,000-row stratified sample was created in advance. This sample preserved the same fraud prevalence (8.7%) and feature distributions, ensuring validity for analysis while allowing faster processing.
 
-Sampling details, including row counts, fraud rate, and random seed, will be documented in the ETL notebook, and a small accompanying JSON file provided transparency.
+Sampling details, including row counts, fraud rate, and random seed, will be documented in the ETL notebook, and a small accompanying JSON file provided for transparency.
 
 All analysis and modelling for this project will be performed on this 100k sample, with results expected to closely mirror those from the full dataset. Minor variation in statistical outcomes or model performance may occur if the full dataset were used.
 
