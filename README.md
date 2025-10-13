@@ -197,7 +197,7 @@ The European Credit Card Fraud dataset (2013) was rejected due to low fraud rate
 
 ## Deployment
 
-- Delivered as a Power BI dashboard (`Capstone_FraudDashboard.pbix`), and in Jupyter Notebooks (pleasee file structure secytion)
+- Delivered as a Power BI dashboard
 - All visuals link to processed dataset.
 
 ## Challenges and Limitations
