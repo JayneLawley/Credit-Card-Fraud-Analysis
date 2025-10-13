@@ -139,19 +139,17 @@ Reproducible ETL, statistical EDA, and model evaluation produce actionable insig
 
 ## Main Data Analysis Libraries
 
-| Library | Purpose / Use |
-|---------|---------------|
-| `pathlib` | File and folder path handling |
-| `json` | Metadata file reading/writing |
-| `pandas` | Data loading, cleaning, summarizing |
-| `numpy` | Numerical operations and transformations |
-| `matplotlib.pyplot` | Static plotting (histograms, boxplots) |
-| `seaborn` | Statistical visualizations (bar plots, heatmaps) |
-| `plotly.express` | Interactive visualizations |
-| `scipy.stats` | Statistical tests (Mann–Whitney U) |
-| `scipy.stats.chi2_contingency` | Chi-Square tests |
-| `cliffs_delta` | Effect size calculation |
-| `IPython.display` | Improved DataFrame/plot display in notebooks |
+| Library / Module                       | Purpose / Use in Project                                                                                      |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| `sklearn.model_selection`              | Splitting data (train/test/validation), parameter tuning (`train_test_split`, `GridSearchCV`)                 |
+| `sklearn.metrics`                      | Calculating evaluation metrics (precision, recall, F1, ROC-AUC, PR-AUC), confusion matrix visualization       |
+| `sklearn.linear_model.LogisticRegression` | Baseline interpretable classifier for comparison                                                            |
+| `sklearn.tree.DecisionTreeClassifier`  | Simple, transparent model to explore decision boundaries and feature splits                                   |
+| `sklearn.ensemble.RandomForestClassifier` | Ensemble model for non-linear relationships and predictive stability                                        |
+| `sklearn.ensemble.GradientBoostingClassifier` | Gradient boosting ensemble for accuracy and bias-variance control                                      |
+| `xgboost.XGBClassifier`                | High-performance gradient boosting for advanced modeling                                                      |
+| `imblearn.over_sampling.SMOTE`         | Synthetic Minority Oversampling Technique for handling class imbalance                                        |
+| `matplotlib.pyplot`                    | Plotting evaluation curves (Precision–Recall, ROC, threshold visualizations)                                  |
 
 ---
 
@@ -170,6 +168,54 @@ The European Credit Card Fraud dataset (2013) was rejected due to low fraud rate
 - Limited cost–benefit or time-trend analysis
 
 ---
+# Project File Structure
+
+CREDIT-CARD-FRAUD-ANALYSIS/
+│
+├── .venv/                              # Virtual environment (excluded from Git)
+│
+├── Dasboard/                           # Final Power BI dashboard
+│   └── Credit-Card-Analysis-Dashboard.pbix
+│
+├── data/                               # Datasets used for ETL, EDA, and modelling
+│   ├── processed/                      # Cleaned and transformed dataset
+│   │   └── card_transdata_processed.csv
+│   └── raw/                            # Original dataset and metadata
+│       ├── card_transdata_sample_100k.csv
+│       └── sample_log.json
+│
+├── jupyter_notebooks/                  # Project notebooks for each stage
+│   ├── 01_ETL.ipynb                    # Data extraction, cleaning, and transformation
+│   ├── 02_EDA.ipynb                    # Exploratory data analysis and hypothesis testing
+│   └── 03_Modelling.ipynb              # Model training, evaluation, and threshold tuning
+│
+├── reports/                            # Model output and comparison CSVs
+│   ├── balance_model_comparison.csv
+│   ├── balance_model_detailed_comparison_t70.csv
+│   ├── balance_threshold_comparison.csv
+│   ├── logit_test_thresholds.csv
+│   ├── logit_test_thresholds_detailed.csv
+│   ├── logit_thresholds_test_detailed.csv
+│   ├── test_model_compare.csv
+│   └── tree_test_thresholds.csv
+│
+├── Wireframe/                          # Dashboard layout drafts created in Balsamiq
+│   ├── Balsamiq_Dashbboard_Report_Page_1.jpg
+│   └── Balasmic_Dashboard_Report_Page_2.jpg
+│
+├── requirements.txt                    # Python library dependencies
+├── setup.sh                            # Deployment setup script
+├── Procfile                            # Heroku deployment configuration
+├── .gitignore                          # Files excluded from version control
+├── .python-version                     # Python version information
+├── .slugignore                         # Files excluded from deployment build
+└── README.md                           # Project documentation
+
+
+**Notes:**
+- The Dasboard folder contains the final .pbix Power BI report file.
+- The Wireframe folder stores exported Balsamiq images showing early dashboard design drafts.
+- The reports folder holds all model and threshold comparison outputs used in Power BI and documentation.
 
 ## Future Directions
 
@@ -213,11 +259,9 @@ The European Credit Card Fraud dataset (2013) was rejected due to low fraud rate
 
 Despite these constraints, the dataset enabled a full demonstration of the fraud analytics workflow (from ETL and EDA through modeling and dashboard delivery)while highlighting practical challenges encountered in real-world fraud detection projects.
 
+## Project Summary
 
-**Project Summary**
-
-This project explored the relationship between detecting fraud and balancing operational risk, false alerts, and investigation costs. It demonstrates how machine learning performance can be improved by incorporating these trade-offs into model evaluation and decision thresholds. Although the dataset’s synthetic design limited analysis of real financial or temporal patterns, it provided a valuable opportunity to investigate real-world challenges in fraud detection — particularly how models and dashboards can support more balanced, cost-aware decision-making within the Capstone framework.
----
+This project investigates how to detect credit card fraud while balancing operational risks, false alerts, and investigation costs. By tuning model thresholds and evaluating precision–recall trade-offs, it demonstrates how machine learning can support more effective, cost-aware fraud management. While the synthetic dataset limits analysis of real-world financial and time-based patterns, it enables a practical demonstration of analytics workflows and dashboard design for fraud detection in a capstone context.
 
 ## Credits
 
