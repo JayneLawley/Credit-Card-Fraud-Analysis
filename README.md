@@ -170,7 +170,6 @@ The European Credit Card Fraud dataset (2013) was rejected due to low fraud rate
 ---
 # Project File Structure
 
-File Strtcture Image:
 ![Project file structure diagram](images/project_file_structure.png)
 ![alt text](image.png)
 
