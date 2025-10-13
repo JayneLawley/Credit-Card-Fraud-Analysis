@@ -1,122 +1,239 @@
 # Project: Credit Card Fraud Analysis
 
-**Credit Card Fraud Analysis** uses exploratory data analysis, visualisation, and predictive modelling to provide insights into the complexity of fraud and identify key factors linked to fraudulent activity.
+Credit Card Fraud Analysis leverages exploratory data analysis, visualization, and predictive modeling to uncover fraud patterns and evaluate trade-offs between detecting fraudulent activity and reducing false alerts.
 
-# ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
-
+---
 
 ## Dataset Content
 
-The dataset used is synthetic and publicly available on Kaggle: [Credit Card Fraud Dataset](https://www.kaggle.com/datasets/dhanushnarayananr/credit-card-fraud/data/code). The full dataset on Kaggle contains one million card transactions, of which approximately 8.7% are labelled as fraudulent.The dataset’s variables are designed to be relevant and aligned with real-world business concepts:
-- distance_from_home: distance from the customer’s home to the location of the transaction.
-- distance_from_last_transaction: distance between the current and previous transaction.
-- ratio_to_median_purchase_price: The ratio between the transaction amount and the customer’s typical (median) purchase size. 
-- repeat_retailer: whether the transaction occurred at the same retailer as previous purchases.
-- used_chip: whether the transaction used a card chip.
-- used_pin_number: whether a PIN number was used.
-- fraud: target variable, indicating whether the transaction was fraudulent (1) or genuine (0). 
+- **Source:** Synthetic, publicly available on Kaggle: *Credit Card Fraud Dataset*
+- **Size:** 1,000,000 transactions (8.7% labeled as fraudulent)
+- **Sample Used:** 100,000-row stratified sample (preserves fraud prevalence and feature distributions)
+- **Sampling Details:** Row counts, fraud rate, and random seed documented in the ETL notebook; metadata stored in a JSON file.
 
-To keep the project lightweight and efficient, a 100,000-row stratified sample was created in advance. This sample preserved the same fraud prevalence (8.7%) and feature distributions, ensuring validity for analysis while allowing faster processing.
+**Main variables:**
+- `distance_from_home`: Distance from customer’s home to transaction location
+- `distance_from_last_transaction`: Distance between consecutive transactions
+- `ratio_to_median_purchase_price`: Ratio of current transaction to customer’s median purchase size
+- `repeat_retailer`: Whether transaction occurred at a previously used retailer
+- `used_chip`: Whether a card chip was used
+- `used_pin_number`: Whether a PIN was used
+- `fraud`: Target variable (1 = fraudulent, 0 = genuine)
 
-Sampling details, including row counts, fraud rate, and random seed, will be documented in the ETL notebook, and a small accompanying JSON file provided for transparency.
-
-All analysis and modelling for this project will be performed on this 100k sample, with results expected to closely mirror those from the full dataset. Minor variation in statistical outcomes or model performance may occur if the full dataset were used.
-
+---
 
 ## Business Rationale
 
-**Problem Statement**
+### Problem Statement
 
-Credit card fraud is a growing global challenge. Recent reports highlight a dramatic surge in card fraud losses worldwide, with new tactics exposing gaps in current defences (FICO, 2023). Fraud has serious costs for all parties: victims suffer financial losses and stress, while banks face direct losses, higher operating costs, and reputational damage.
+Credit card fraud is a global challenge, causing financial loss and stress for victims, and increased costs and reputational risk for financial institutions.
 
-**Business Requirements**
+### Business Requirements
 
-To combat these evolving threats, financial institutions are increasingly turning to machine learning and AI. Industry experts emphasise that effective fraud prevention requires models that learn from global fraud patterns, analytics that adapt in real time, and platforms that deploy rapidly while amplifying human expertise (FICO, 2023).
+Modern fraud prevention relies on machine learning and AI to detect evolving fraud patterns and optimize investigation workflows. The main challenge is balancing recall (catching more fraud) and precision (avoiding false alerts).
 
-In fraud detection, there is a crucial trade-off between catching more fraud and avoiding false alarms. Missing a fraudulent transaction (a false negative) directly causes financial loss, whereas incorrectly flagging a genuine customer (a false positive) wastes investigative effort and frustrates customers (Soto-Valero, 2023). Business success in fraud detection depends not on raw accuracy (which can be misleading on imbalanced datasets) but about balancing these outcomes.
+- **False negatives:** Direct loss
+- **False positives:** Wasted resources, customer dissatisfaction
 
-This project explores how machine learning can identify fraudulent transactions in an imbalanced dataset and how findings can be communicated through a dashboard that supports fraud analysts and business decision-makers. The dataset used is synthetic, containing 8.7% fraudulent transactions (much higher than real-world rates of <0.5%), which provides a practical context for testing fraud detection approaches.
+### Business Goals
 
-**Business Goals**
-- Communicate insights through a dashboard that highlights trade-offs between detecting fraud and minimising false alerts.
-- Evaluate how effectively machine learning models can detect fraudulent activity under these conditions.
+- Communicate insights via a dashboard highlighting trade-offs between detecting fraud and minimizing false alerts
+- Evaluate model performance using interpretable metrics and threshold tuning
+- Demonstrate how analytics inform real-world fraud management strategies
 
-## Hypothesis **and how to validate**
-- H1: Fraud increases with greater distance from the customer’s home.
-- H2: Fraud increases with greater distance from the previous transaction.
-- H3: Fraud increases when the transaction amount is high relative to the customer’s usual spending.
-- H4: Online transactions are more likely to be fraudulent.
-- H5: Using a chip or PIN reduces the likelihood of fraud.
-- H6: Fraud likelihood differs between repeat and new retailers.
-- H7: Adjusting model thresholds will show how trade-offs between false positives and false negatives affect performance.
-- H8: Fraud risk depends on the combination of online ordering and chip use.
+---
+
+## Hypotheses and Tests
+
+| Hypothesis | Test |
+|------------|------|
+| H1: Fraud increases with greater distance from home | Mann–Whitney U on `distance_from_home` |
+| H2: Fraud increases with greater distance from previous transaction | Mann–Whitney U on `distance_from_last_transaction` |
+| H3: Fraud increases with higher purchase-price ratio | Mann–Whitney U on `ratio_to_median_purchase_price` (log-transformed) |
+| H4: Online orders are more likely to be fraudulent | Chi-Square (`fraud` vs `online_order`) |
+| H5: Chip or PIN use reduces fraud likelihood | Chi-Square (`fraud` vs `used_chip` and `used_pin_number`) |
+| H6: Fraud likelihood varies by repeat retailer | Chi-Square (`fraud` vs `repeat_retailer`) |
+| H7: Threshold tuning shows trade-offs between false positives/negatives | Precision–Recall curve analysis |
+| H8: Fraud risk depends on online order and chip use combination | Chi-Square on combined `online_chip_category` |
+
+---
 
 ## Project Plan
-* Outline the high-level steps taken for the analysis.
-* How was the data managed throughout the collection, processing, analysis and interpretation steps?
-* Why did you choose the research methodologies you used?
 
-## The rationale to map the business requirements to the Data Visualisations
-* List your business requirements and a rationale to map them to the Data Visualisations
+**Day 1 – Data Understanding and ETL**
+- Load, inspect, and clean data in ETL notebook
+- Export processed dataset and data dictionary
 
-## Analysis techniques used
-* List the data analysis methods used and explain limitations or alternative approaches.
-* How did you structure the data analysis techniques. Justify your response.
-* Did the data limit you, and did you use an alternative approach to meet these challenges?
-* How did you use generative AI tools to help with ideation, design thinking and code optimisation?
+**Day 2 – Exploratory Data Analysis (EDA)**
+- Explore distributions, skew, and correlations
+- Use Mann–Whitney U and Chi-Square tests
+- Identify features for dashboard storytelling
 
-## Ethical considerations
-* Were there any data privacy, bias or fairness issues with the data?
-* How did you overcome any legal or societal issues?
+**Day 3 – Modeling and Evaluation**
+- Train Logistic Regression and tree-based models (Decision Tree, Random Forest, Gradient-Boosted Trees)
+- Evaluate with Precision, Recall, F1, ROC-AUC, PR-AUC
+- Analyze threshold trade-offs
+
+**Day 4 – Dashboard Development (Power BI)**
+- Build interactive dashboard with KPIs, filters, and slicers
+- Highlight fraud drivers and precision-recall balance
+
+**Day 5 – Review and Documentation**
+- Test usability and interpretation
+- Finalize README, notebooks, and report
+
+---
+
+## Analysis Techniques
+
+- **EDA:** Descriptive statistics, hypothesis testing, visualization
+- **Tests:** Mann–Whitney U (continuous), Chi-Square (categorical), Cliff’s Delta (effect size)
+
+**Key findings:**
+- H1: Fraudulent transactions occurred farther from home (p < 0.001, δ = 0.199)
+- H2: Greater distance from previous transaction linked to higher fraud risk (p < 0.001, δ = 0.09)
+- H3: High purchase-price ratios strongly associated with fraud (p < 0.001, δ = 0.70)
+- H4: Online transactions had higher fraud rates (p < 0.001)
+- H5: Chip and PIN use reduced fraud frequency (p < 0.001)
+- H6: New retailers had marginally higher fraud rate (p < 0.05)
+- H7: Lower thresholds increased recall but reduced precision
+- H8: Highest fraud rates for online + no chip transactions (p < 0.001)
+
+**Summary:**  
+Distance, purchase-price ratio, and online activity are strong fraud predictors. Authentication features (chip, PIN) reduce risk; online transactions without chip use are highest risk.
+
+---
 
 ## Dashboard Design
-* List all dashboard pages and their content, either blocks of information or widgets, like buttons, checkboxes, images, or any other item that your dashboard library supports.
-* Later, during the project development, you may revisit your dashboard plan to update a given feature (for example, at the beginning of the project you were confident you would use a given plot to display an insight but subsequently you used another plot type).
-* How were data insights communicated to technical and non-technical audiences?
-* Explain how the dashboard was designed to communicate complex data insights to different audiences. 
 
-## Unfixed Bugs
-* Please mention unfixed bugs and why they were not fixed. This section should include shortcomings of the frameworks or technologies used. Although time can be a significant variable to consider, paucity of time and difficulty understanding implementation are not valid reasons to leave bugs unfixed.
-* Did you recognise gaps in your knowledge, and how did you address them?
-* If applicable, include evidence of feedback received (from peers or instructors) and how it improved your approach or understanding.
+**Power BI dashboard:** Two interactive pages
 
-## Development Roadmap
-* What challenges did you face, and what strategies were used to overcome these challenges?
-* What new skills or tools do you plan to learn next based on your project experience? 
+### 1. Fraud Overview (Decision-Maker View)
+- KPI cards: total transactions, incorrect/correct fraud alerts, % false alerts
+- Pie chart: % transactions identified as fraud
+- Bar charts: fraud rate by purchase type, chip use, purchase-price ratio
+- Heat map: distance from home × purchase-price ratio vs fraud rate
+- Slicers: purchase type, chip/PIN use, retailer type
+
+### 2. Threshold Analysis (Analyst View)
+- Threshold slider: updates precision, recall, false-alert rate, missed-fraud count
+- KPI cards: totals for transactions and frauds
+- Bar charts: fraud rate by PIN use, online/in-person, chip use, distance, purchase-price ratio
+- Shared slicers for filtering
+
+**Design considerations:**  
+Focus on interpretability and interactivity. Dataset is synthetic (no cost/time variables), so cost-impact or time-series visuals are not included. Wireframes are in the wireframes folder.
+
+---
+
+## Modeling and Evaluation
+
+- **Models:** Logistic Regression (baseline), Decision Tree (class-weighted), Random Forest, Gradient-Boosted Trees
+- **Metrics:** Precision, Recall, F1, ROC-AUC, PR-AUC
+- **Threshold tuning:** Central to analysis; lower thresholds increase recall but cause more false alerts
+
+**Workflow:**  
+Reproducible ETL, statistical EDA, and model evaluation produce actionable insights for the dashboard.
+
+---
+
+## Main Data Analysis Libraries
+
+| Library | Purpose / Use |
+|---------|---------------|
+| `pathlib` | File and folder path handling |
+| `json` | Metadata file reading/writing |
+| `pandas` | Data loading, cleaning, summarizing |
+| `numpy` | Numerical operations and transformations |
+| `matplotlib.pyplot` | Static plotting (histograms, boxplots) |
+| `seaborn` | Statistical visualizations (bar plots, heatmaps) |
+| `plotly.express` | Interactive visualizations |
+| `scipy.stats` | Statistical tests (Mann–Whitney U) |
+| `scipy.stats.chi2_contingency` | Chi-Square tests |
+| `cliffs_delta` | Effect size calculation |
+| `IPython.display` | Improved DataFrame/plot display in notebooks |
+
+---
+
+## Dataset Selection and Limitations
+
+**Rationale:**  
+The European Credit Card Fraud dataset (2013) was rejected due to low fraud rate (0.17%) and PCA-transformed features. The Kaggle synthetic dataset was chosen for its:
+- Manageable 8.7% fraud rate
+- Interpretable features
+- No need for GitHub LFS or large-file handling
+
+**Limitations:**
+- Models perform unrealistically well due to data simplicity
+- No transaction amounts, timestamps, or cost data
+- No monetary/time context for loss or fraud timing
+- Limited cost–benefit or time-trend analysis
+
+---
+
+## Future Directions
+
+- Dashboard supports future cost-based analysis
+- With real data, users could estimate costs per false positive/missed fraud
+- Industry reports highlight high false positive workload, reinforcing need for balanced detection
+
+---
+
+## Ethical Considerations
+
+- **Privacy:** Dataset is synthetic; no personal data. Real data would require GDPR compliance.
+- **Fairness & Accountability:** Automated detection balanced with human review for fairness.
+- **Transparency:** Models are decision-support tools; thresholds and metrics are documented and visualized.
+
+---
 
 ## Deployment
 
+- Delivered as a Power BI dashboard (`Capstone_FraudDashboard.pbix`), and in Jupyter Notebooks (pleasee file structure secytion)
+- All visuals link to processed dataset.
+
+## Challenges and Limitations
+
+### Technical Challenges
+
+- **Environment setup:**  
+    Initial issues with VS Code not activating the virtual environment led to import errors (e.g., `No module named numpy`). This was resolved by reinstalling dependencies directly into the active Jupyter kernel using `%pip install -r requirements.txt`, with guidance from my project tutor.
+
+- **Seaborn compatibility:**  
+    The latest Seaborn version deprecated using color palettes without a defined `hue`. This caused repeated `FutureWarning` messages. The issue was fixed by specifying `hue=` and `legend=False` in plot functions, based on troubleshooting with Copilot.
+
+- **Dashboard integration:**  
+    Limitation creating visuals without time and cost reakationships to fraud.
+
+### Dataset and Modeling Limitations
+
+- The synthetic dataset’s clear class separation led to inflated model performance compared to real-world scenarios.
+- Absence of cost and time-based features limited the ability to analyze business impacts, such as comparing fraud-loss costs with false-alert investigation costs.
+- Simplified feature design reduced the complexity of relationships, making the data less representative of real fraud detection challenges.
+
+Despite these constraints, the dataset enabled a full demonstration of the fraud analytics workflow (from ETL and EDA through modeling and dashboard delivery)while highlighting practical challenges encountered in real-world fraud detection projects.
 
 
-## Main Data Analysis Libraries
-* Here you should list the libraries you used in the project and provide an example(s) of how you used these libraries.
+**Project Summary**
 
+This project explored the relationship between detecting fraud and balancing operational risk, false alerts, and investigation costs. It demonstrates how machine learning performance can be improved by incorporating these trade-offs into model evaluation and decision thresholds. Although the dataset’s synthetic design limited analysis of real financial or temporal patterns, it provided a valuable opportunity to investigate real-world challenges in fraud detection — particularly how models and dashboards can support more balanced, cost-aware decision-making within the Capstone framework.
+---
 
-## Credits 
-**Fraud Research for Business Costs and Rationale**
+## Credits
 
-The following sources were used to support the background research and help determine fraud-related business impacts, false-positive costs, and model threshold choices:
-- Credit Card Fraud Detection: 2025 Trends and Interventions, FICO August 2023
-- Soto-Valero, C. (2023). Evaluation Metrics for Real-Time Financial Fraud Detection ML Models – Blog.cesarsotovalero.netcesarsotovalero.netcesarsotovalero.net (Covers precision, recall, FPR/FNR business targets, and why AUC-PR is more informative than ROC in imbalanced fraud detection.)
-- Alon, T. (2023). Ultimate Guide to PR-AUC: Calculations, Uses, and Limitations – Coralogix Blog.coralogix.comcoralogix.com (Explains why accuracy is misleading on imbalanced data and advocates using Precision-Recall AUC for class-imbalanced cases.)
-- Sahoo et al. (2023). Data Leakage and Deceptive Performance: A Critical Examination of Credit Card Fraud Detection Methodologies (arXiv preprint) arxiv.org. (Highlights that recall is more appropriate than accuracy for fraud detection, given the high cost of false negatives.)
-- NICE Actimize. (2024, November 11). Effective strategies for reducing false positives in transaction monitoring [Brochure]. Retrieved from https://www.niceactimize.com/Lists/Brochures/aml-reducing-false-positives-in-transaction-monitoring-brochure.pdf
-- J.P. Morgan. (n.d.). False positives & fraud prevention tools. Retrieved from https://www.jpmorgan.com/insights/payments/analytics-and-insights/cnp-fraud-prevention-combat-chargebacks
+**Fraud Research and Business Context**
+- FICO (2023). Credit Card Fraud Detection: 2025 Trends and Interventions
+- Soto-Valero, C. (2023). Evaluation Metrics for Real-Time Financial Fraud Detection ML Models
+- Alon, T. (2023). Ultimate Guide to PR-AUC: Calculations, Uses, and Limitations (Coralogix Blog)
+- Sahoo et al. (2023). Data Leakage and Deceptive Performance in Credit Card Fraud Detection (arXiv preprint)
+- NICE Actimize (2024). Reducing False Positives in Transaction Monitoring
+- J.P. Morgan (n.d.). False Positives & Fraud Prevention Tools
 
-* Notes for additional: reference where you got your content, media and extra help from. It is common practice to use code from other repositories and tutorials, however, it is important to be very specific about these sources to avoid plagiarism. 
-* You can break the credits section up into Content and Media, depending on what you have included in your project. 
-
-### Content 
+**Acknowledgements**
+- Tutor: Vasi Pavaloi (coding and project guidance)
+- ChatGPT and GitHub Copilot (debugging, code refinement, documentation)
+- Code Institute LMS documentation (structure and best practices)
 
 - The text for the Home page was taken from Wikipedia Article A
 - Instructions on how to implement form validation on the Sign-Up page was taken from [Specific YouTube Tutorial](https://www.youtube.com/)
 - The icons in the footer were taken from [Font Awesome](https://fontawesome.com/)
-
-### Media
-
-- The photos used on the home and sign-up page are from This Open-Source site
-- The images used for the gallery page were taken from this other open-source site
-
-
-## Acknowledgements (optional)
-* Thank the people who provided support through this project.
