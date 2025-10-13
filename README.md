@@ -174,7 +174,7 @@ CREDIT-CARD-FRAUD-ANALYSIS/
 │
 ├── .venv/                              # Virtual environment (excluded from Git)
 │
-├── Dasboard/                           # Final Power BI dashboard
+├── Dashboard/                          # Final Power BI dashboard
 │   └── Credit-Card-Analysis-Dashboard.pbix
 │
 ├── data/                               # Datasets used for ETL, EDA, and modelling
@@ -210,6 +210,7 @@ CREDIT-CARD-FRAUD-ANALYSIS/
 ├── .python-version                     # Python version information
 ├── .slugignore                         # Files excluded from deployment build
 └── README.md                           # Project documentation
+
 
 
 **Notes:**
