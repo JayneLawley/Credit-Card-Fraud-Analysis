@@ -170,47 +170,9 @@ The European Credit Card Fraud dataset (2013) was rejected due to low fraud rate
 ---
 # Project File Structure
 
-CREDIT-CARD-FRAUD-ANALYSIS/
-│
-├── .venv/                              # Virtual environment (excluded from Git)
-│
-├── Dashboard/                          # Final Power BI dashboard
-│   └── Credit-Card-Analysis-Dashboard.pbix
-│
-├── data/                               # Datasets used for ETL, EDA, and modelling
-│   ├── processed/                      # Cleaned and transformed dataset
-│   │   └── card_transdata_processed.csv
-│   └── raw/                            # Original dataset and metadata
-│       ├── card_transdata_sample_100k.csv
-│       └── sample_log.json
-│
-├── jupyter_notebooks/                  # Project notebooks for each stage
-│   ├── 01_ETL.ipynb                    # Data extraction, cleaning, and transformation
-│   ├── 02_EDA.ipynb                    # Exploratory data analysis and hypothesis testing
-│   └── 03_Modelling.ipynb              # Model training, evaluation, and threshold tuning
-│
-├── reports/                            # Model output and comparison CSVs
-│   ├── balance_model_comparison.csv
-│   ├── balance_model_detailed_comparison_t70.csv
-│   ├── balance_threshold_comparison.csv
-│   ├── logit_test_thresholds.csv
-│   ├── logit_test_thresholds_detailed.csv
-│   ├── logit_thresholds_test_detailed.csv
-│   ├── test_model_compare.csv
-│   └── tree_test_thresholds.csv
-│
-├── Wireframe/                          # Dashboard layout drafts created in Balsamiq
-│   ├── Balsamiq_Dashbboard_Report_Page_1.jpg
-│   └── Balasmic_Dashboard_Report_Page_2.jpg
-│
-├── requirements.txt                    # Python library dependencies
-├── setup.sh                            # Deployment setup script
-├── Procfile                            # Heroku deployment configuration
-├── .gitignore                          # Files excluded from version control
-├── .python-version                     # Python version information
-├── .slugignore                         # Files excluded from deployment build
-└── README.md                           # Project documentation
-
+File Strtcture Image:
+![Project file structure diagram](images/project_file_structure.png)
+![alt text](image.png)
 
 
 **Notes:**
